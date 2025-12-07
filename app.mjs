@@ -1,7 +1,19 @@
 import express from 'express'
+import session from 'express-session'
+
 import userRouter from './routers/userRouter.mjs'
 
 const app = express()
+
+app.use(session({
+  secret: process.env.SESSION,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.MODE == 'devel' ? false ; true,
+    maxAge: 1000 * 60 * 5
+  }
+}));
 
 app.use(express.json())
 
